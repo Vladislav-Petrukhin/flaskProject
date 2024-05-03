@@ -4,7 +4,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 
 def preprocess_data():
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient('mongodb://mongodb:27017/')
     db = client['flaskdatabase']
     collection = db['data']
 
@@ -47,14 +47,14 @@ def train_model(X, y):
     return results
 
 def save_to_db(results):
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient('mongodb://mongodb:27017/')
     db = client['results_db']
     collection = db['model_results']
     collection.insert_one(results)
 
 
 def retrieve_results():
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient('mongodb://mongodb:27017/')
     db = client['results_db']
     collection = db['model_results']
 

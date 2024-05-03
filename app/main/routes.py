@@ -1,5 +1,4 @@
 from bson.json_util import dumps
-
 from flask import render_template, redirect, url_for, request, session, jsonify
 from . import main
 from app import mongo

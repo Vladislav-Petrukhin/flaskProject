@@ -1,0 +1,6 @@
+pymongo
+Flask
+pandas
+scikit-learn
+flask_pymongo
+flask_session
