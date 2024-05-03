@@ -1,6 +1,9 @@
-from flask import render_template, redirect, url_for, request, session
+from bson.json_util import dumps
+
+from flask import render_template, redirect, url_for, request, session, jsonify
 from . import main
 from app import mongo
+from app.neural_networks import preprocess_data, train_model, save_to_db, retrieve_results
 
 
 @main.route('/')
@@ -10,7 +13,6 @@ def home():
         return redirect(url_for('main.register'))
     username = session['username']
     return render_template('home.html', username=username)
-
 
 
 @main.route('/register', methods=['GET', 'POST'])
@@ -40,9 +42,10 @@ def logout():
 
     return redirect(url_for('main.home'))
 
+
 @main.route('/neural_networks')
 def neural_networks():
-    pass
+    return render_template('neural_networks.html')
 
 
 @main.route('/tasks')
@@ -51,3 +54,20 @@ def tasks():
         return redirect(url_for('main.home'))
 
     return render_template('tasks.html')
+
+
+@main.route('/preprocess_data', methods=['POST'])
+def preprocess_and_predict():
+    data, y = preprocess_data()
+    results = train_model(data, y)
+
+    save_to_db(results)
+
+    return dumps(results)
+
+
+@main.route('/retrieve_results', methods=['POST'])
+def retrieve_data():
+    results = retrieve_results()
+
+    return jsonify(results)
