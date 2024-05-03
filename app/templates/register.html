@@ -1,4 +1,3 @@
-<!-- templates/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +46,12 @@
 <body>
 
 <div class="navigation">
-    <a href="{{ url_for('main.home') }}">Главная</a>
+    <a href="{{ url_for('main.index') }}">Главная</a>
     <a href="{{ url_for('main.tasks') }}">Задачи</a>
+    {% if not session['username'] %}
+        <button id="registerBtn">Регистрация</button>
+    {% endif %}
 </div>
-
-<button id="registerBtn">Регистрация</button>
 
 <div id="myModal" class="modal">
     <div class="modal-content">
