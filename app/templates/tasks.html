@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задачи.</title>
+    <style>
+        .table-container {
+            width: 80%;
+            margin-top: 10px;
+            margin-right: auto;
+            margin-bottom: 50px;
+            margin-left: auto;
+            padding: 20px;
+        }
+        .table-container iframe {
+            border-radius: 5px;
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navigation">
+        <a href="{{ url_for('main.home') }}">Главная</a>
+        <a href="{{ url_for('main.register') }}">Регистрация</a>
+    </div>
+    <div class="table-container">
+        <iframe src="https://docs.google.com/spreadsheets/d/1tHZpoW2sGGgWoLuNmd3vYBbVZv2fBHPEgg0HCu5EPU0/edit#gid=0"></iframe>
+    </div>
+</body>
+</html>
