@@ -114,6 +114,7 @@
 <div class="navigation">
     <a href="{{ url_for('main.home') }}">Главная</a>
     <a href="{{ url_for('main.tasks') }}">Задачи</a>
+    <a href="{{ url_for('main.neural_networks') }}">Нейронные сети</a>
     {% if not session['username'] %}
         <button id="registerBtn">Регистрация</button>
         <div class="registration-required">Для продолжения работы на сайте требуется регистрация.</div>

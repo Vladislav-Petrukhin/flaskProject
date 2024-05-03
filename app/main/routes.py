@@ -40,6 +40,10 @@ def logout():
 
     return redirect(url_for('main.home'))
 
+@main.route('/neural_networks')
+def neural_networks():
+    pass
+
 
 @main.route('/tasks')
 def tasks():
