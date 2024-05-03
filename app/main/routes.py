@@ -4,16 +4,17 @@ from app import mongo
 
 
 @main.route('/')
-@main.route('/index')
-def index():
-    return render_template('index.html')
+@main.route('/home')
+def home():
+    if 'username' not in session:
+        return redirect(url_for('main.register'))
+    username = session['username']
+    return render_template('home.html', username=username)
+
 
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    if 'username' in session:
-        return redirect(url_for('main.home'))
-
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -33,19 +34,16 @@ def register():
     return render_template('register.html')
 
 
-@main.route('/home')
-def home():
-    if 'username' not in session:
-        return redirect(url_for('main.index'))
+@main.route('/logout')
+def logout():
+    session.pop('username', None)
 
-    username = session['username']
-
-    return render_template('home.html', username=username)
+    return redirect(url_for('main.home'))
 
 
 @main.route('/tasks')
 def tasks():
     if 'username' not in session:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
 
     return render_template('tasks.html')

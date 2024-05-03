@@ -3,16 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Задачи.</title>
+    <title>Задачи</title>
     <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .navigation {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navigation a, .navigation button {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            background-color: transparent;
+            border: 1px solid white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navigation a:hover, .navigation button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffff00;
+        }
+
         .table-container {
             width: 80%;
-            margin-top: 10px;
-            margin-right: auto;
-            margin-bottom: 50px;
-            margin-left: auto;
+            margin: 20px auto;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
+
         .table-container iframe {
             border-radius: 5px;
             width: 100%;
@@ -24,8 +57,10 @@
 <body>
     <div class="navigation">
         <a href="{{ url_for('main.home') }}">Главная</a>
-        <a href="{{ url_for('main.register') }}">Регистрация</a>
+        <a href="{{ url_for('main.tasks') }}">Задачи</a>
+        <button id="registerBtn">Регистрация</button>
     </div>
+
     <div class="table-container">
         <iframe src="https://docs.google.com/spreadsheets/d/1tHZpoW2sGGgWoLuNmd3vYBbVZv2fBHPEgg0HCu5EPU0/edit#gid=0"></iframe>
     </div>

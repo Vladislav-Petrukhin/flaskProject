@@ -3,12 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя первая HTML страница</title>
+    <title>Главная</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .slider {
+            position: relative;
+            width: 80%;
+            margin: auto; /* Центрируем слайдер */
+            overflow: hidden; /* Скрываем части, выходящие за рамки */
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            position: relative;
+            min-width: 100%;
+            height: 300px; /* Определите высоту, подходящую для ваших нужд */
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 10px; /* Расположение текста в нижней части изображения */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white; /* Цвет текста */
+            font-size: 20px; /* Размер шрифта */
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон для текста */
+            padding: 10px 0; /* Подушка для текста */
+        }
+
+        .control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            padding: 0 10px;
+            user-select: none;
+        }
+
+        .control.left {
+            left: 10px;
+        }
+
+        .control.right {
+            right: 10px;
+        }
+
+
+        .navigation {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navigation a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navigation a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffff00;
+        }
+
+    </style>
 </head>
 <body>
+<div class="navigation">
+    <a href="{{ url_for('main.home') }}">Главная</a>
+    <a href="{{ url_for('main.tasks') }}">Задачи</a>
+    <a href="{{ url_for('main.register') }}">Регистрация</a>
+</div>
 
-<h1>Привет, мир!</h1>
-<p>Это моя первая HTML страница.</p>
+<div class="slider">
+    <div class="slides">
+        <div class="slide">
+            <img src="{{ url_for('static', filename='IT_1.jpg') }}" alt="Нейронные сети">
+            <div class="caption">Нейронные сети</div>
+        </div>
+        <div class="slide">
+            <img src="{{ url_for('static', filename='IT_2.jpg') }}" alt="Машинное обучение">
+            <div class="caption">Машинное обучение</div>
+        </div>
+        <div class="slide">
+            <img src="{{ url_for('static', filename='IT_3.png') }}" alt="Перспективы IT">
+            <div class="caption">Перспективы IT</div>
+        </div>
+    </div>
+    <span class="control left">&#10094;</span>
+    <span class="control right">&#10095;</span>
+</div>
 
+
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const maxIndex = slides.length;
+    const updateSlidePosition = () => {
+        const offset = currentIndex * -100;
+        document.querySelector('.slides').style.transform = 'translateX(' + offset + '%)';
+    };
+
+    document.querySelector('.control.right').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % maxIndex;
+        updateSlidePosition();
+    });
+
+    document.querySelector('.control.left').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + maxIndex) % maxIndex;
+        updateSlidePosition();
+    });
+</script>
 </body>
 </html>
