@@ -42,6 +42,8 @@ def logout():
     return redirect(url_for('main.home'))
 
 
+progress = 0
+
 @main.route('/neural_networks')
 def neural_networks():
     return render_template('neural_networks.html')
@@ -51,22 +53,26 @@ def neural_networks():
 def tasks():
     if 'username' not in session:
         return redirect(url_for('main.home'))
-
     return render_template('tasks.html')
 
 
 @main.route('/preprocess_data', methods=['POST'])
-def preprocess_and_predict():
+def preprocess_and_train():
+    global progress
+    progress = 0
     data, y = preprocess_data()
     results = train_model(data, y)
-
     save_to_db(results)
-
     return dumps(results)
 
 
 @main.route('/retrieve_results', methods=['POST'])
 def retrieve_data():
     results = retrieve_results()
-
     return jsonify(results)
+
+
+@main.route('/training_progress', methods=['GET'])
+def training_progress():
+    global progress
+    return jsonify({'progress': progress})

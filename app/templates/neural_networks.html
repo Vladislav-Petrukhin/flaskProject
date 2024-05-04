@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Нейронные Сети</title>
     <style>
         body {
@@ -50,6 +49,16 @@
             background-color: #45a049;
         }
 
+        #progressBar {
+            width: 80%;
+            height: 25px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 2px solid #4CAF50;
+            background-color: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
         textarea {
             width: 80%;
             height: 200px;
@@ -57,7 +66,7 @@
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            box-sizing: border-box; /* So padding does not affect width */
+            box-sizing: border-box;
             background-color: #f8f8f8;
             color: #333;
         }
@@ -75,33 +84,66 @@
 <button onclick="trainModel()">Обучить и спрогнозировать</button>
 <button onclick="fetchData()">Вывести из БД</button>
 
-<textarea id="outputArea" placeholder="Здесь будет вывод данных, скоро..."></textarea>
+<progress id="progressBar" max="100" value="0"></progress>
+<textarea id="outputArea" placeholder="Здесь будет вывод данных..."></textarea>
 
 <script>
-    function trainModel() {
+    async function trainModel() {
+        const progressBar = document.getElementById('progressBar');
+        progressBar.value = 0;
         document.getElementById('outputArea').value = 'Процесс обучения запущен...';
 
+        let progressComplete = false;
+
+        async function updateProgress() {
+            if (progressComplete) return;
+
+            const response = await fetch('/training_progress', {method: 'GET'});
+            const data = await response.json();
+            progressBar.value = data.progress;
+
+            if (data.progress < 100) {
+                setTimeout(updateProgress, 500);
+            } else {
+                progressComplete = true;
+            }
+        }
+
+        // Запускаем мониторинг прогресса
+        updateProgress();
+
+        // Начинаем обучение
         fetch('/preprocess_data', {
             method: 'POST',
         })
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('outputArea').value = data;
-        })
-        .catch(error => console.error('Ошибка:', error));
+            .then(response => response.text())
+            .then(data => {
+                progressComplete = true;
+                progressBar.value = 100;
+                document.getElementById('outputArea').value = data;
+            })
+            .catch(error => {
+                progressComplete = true;
+                console.error('Ошибка:', error);
+                document.getElementById('outputArea').value = 'Ошибка при обучении.';
+            });
     }
 
-    function fetchData() {
+
+    async function fetchData() {
         document.getElementById('outputArea').value = 'Загрузка данных из БД...';
 
         fetch('/retrieve_results', {
             method: 'POST',
         })
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('outputArea').value = data;
-        })
-        .catch(error => console.error('Ошибка:', error));
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('outputArea').value = data;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                document.getElementById('outputArea').value = 'Ошибка при загрузке данных.';
+            });
     }
 </script>
 

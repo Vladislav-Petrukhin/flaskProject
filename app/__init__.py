@@ -1,7 +1,9 @@
+from flask_pymongo import PyMongo
 from flask import Flask
 from config import Config
 from flask_pymongo import PyMongo
 from flask_session import Session
+from config import Config
 
 mongo = PyMongo()
 
@@ -20,11 +22,6 @@ def create_app(config_class=Config):
 
     return app
 
-
-from flask import Flask
-from config import Config
-from flask_pymongo import PyMongo
-from flask_session import Session
 
 mongo = PyMongo()
 
